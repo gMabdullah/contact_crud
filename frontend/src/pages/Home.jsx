@@ -6,7 +6,7 @@ import axios from 'axios'
 
 function Home() {
   //**Variable hoot to store and load data */
-  const [datas, setData] = useState([]);
+  const [data, setData] = useState([]);
 
   /**function to fetch data from api */
   const loadData = async () => {
@@ -18,10 +18,14 @@ function Home() {
     loadData();
   }, []);
 
-  const delectContact = (id) => {
+  const delectContact = async (id) => {
     if (window.confirm("Are you sure you want to delete this contact ?")) {
-      axios.delete(`http://localhost:7000/api/remove/${id}`)
-      .then(()=>{toast.success("Contact Deleted Succesfully");setTimeout(()=>{loadData()},500)})
+      axios.delete(`http://localhost:7000/api/delete/${id}`)
+      .then(()=>{
+        toast.success("Contact Deleted Succesfully")
+        loadData();
+    })
+      // setTimeout(()=>{loadData()},500)})
       .catch((err)=>{toast.error(err); console.error(err)});
     }
   }
@@ -40,12 +44,12 @@ function Home() {
           </tr>
         </thead>
         <tbody>
-          {datas.map((item, index) => {
+          {data.map((item, index) => {
             return (<tr key={item.id}>
               <th scope='row'>{index + 1}</th>
               <td>{item.name}</td>
               <td>{item.email}</td>
-              <td>{item.contact}</td>
+              <td>{item.phone_no}</td>
               <td>
                 <Link to={`update/${item.id}`}><button className='edit'>Edit</button></Link>
                 <button onClick={() => delectContact(item.id)} className='delete'>Delete</button>

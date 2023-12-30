@@ -17,7 +17,7 @@ const View = () => {
                 <p>USER DATA ARE</p>
                 <strong>NAME: </strong> <span>{user.name}</span><br />
                 <strong>EMAIL: </strong> <span>{user.email}</span><br />
-                <strong>CONTACT: </strong> <span>{user.contact}</span>
+                <strong>CONTACT: </strong> <span>{user.phone_no}</span>
             </div>
         </div>
     )

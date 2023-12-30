@@ -1,7 +1,7 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 const AddEdit = () => {
     const [name, setName] = useState('');
@@ -27,13 +27,14 @@ const AddEdit = () => {
         axios.get(`http://localhost:7000/api/single/${id}`).then((result) => {
             setName(result.data[0].name);
             setEmail(result.data[0].email);
-            setContact(result.data[0].contact);
+            setContact(result.data[0].phone_no);
         }).catch(err => toast.error(err));
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const dataToSubmit = { name, email, contact };
+        const dataToSubmit = { name, email, phone_no: contact };
+    
         const url = "http://localhost:7000/api/add";
         const url2 = `http://localhost:7000/api/update/${id}`;
         if (name !== '' && email !== '' && contact !== '') {
@@ -52,7 +53,12 @@ const AddEdit = () => {
                         setContact('');
                         toast.success("Contact added succesfully");
                         setTimeout(() => navigate('/'), 1000);
-                    }).catch(err => toast.error(err.response.data));
+                    }).catch(err => {
+                        // console.log(err.response.data)
+                        toast.error(err.response.data)
+                    }
+
+                        );
 
             }
         } else {
